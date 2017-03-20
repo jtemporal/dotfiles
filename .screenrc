@@ -1,0 +1,3 @@
+msgwait 3
+sorendition 05 43
+hardstatus alwayslastline " %c | %Y-%m-%d |  %w"
