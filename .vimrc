@@ -7,6 +7,21 @@ set sidescrolloff=15
 set expandtab
 set relativenumber
 
+" activate visual feedback for the following cases
+set list
+" Reset listchars
+set listchars=""
+" Show tabs as |---
+set listchars+=tab:\|-
+" Show trailing spaces as dots
+set listchars+=trail:.
+" The character to show in the last column when wrap is off and the line
+" continues beyond the right of the screen
+set listchars+=extends:>
+" The character to show in the last column when wrap is off and the line
+" continues beyond the right of the screen
+set listchars+=precedes:<
+
 set autoindent
 syntax on
 
