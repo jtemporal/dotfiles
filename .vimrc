@@ -32,4 +32,4 @@ execute pathogen#infect()
 filetype plugin indent on
 
 let @i = "oimport ipdb; ipdb.set_trace()"
-let @c = "0i# "
+let @c = "0wi# "
