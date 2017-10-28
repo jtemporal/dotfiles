@@ -33,3 +33,11 @@ filetype plugin indent on
 
 let @i = "oimport ipdb; ipdb.set_trace()"
 let @c = "0wi# "
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+command! TW call TrimWhitespace()
