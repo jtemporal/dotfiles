@@ -10,9 +10,19 @@
 # Ruby
 Gemfile.lock
 
+# R
+.RData
+.Rhistory
+
 # tmuxp file
 .tmuxp.yml
 .tmuxp.yaml
 
 # jupyter notebook
 .ipynb_checkpoints/
+
+# envs
+.env/
+
+# spark
+*metastore_db/
