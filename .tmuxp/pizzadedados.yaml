@@ -1,0 +1,13 @@
+session_name: pizza
+windows:
+- focus: 'true'
+  layout: 2149,117x32,0,0{65x32,0,0,1,51x32,66,0[51x15,66,0,2,51x16,66,16,3]}
+  options:
+    automatic-rename: 'off'
+  panes:
+  - focus: 'true'
+    shell_command: vim
+  - git status
+  - bundle exec jekyll serve --config _dev_config.yml
+  start_directory: ~/src/pizzadedados
+  window_name: dev
