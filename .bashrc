@@ -181,8 +181,8 @@ eval $(thefuck --alias FUCK)
 # for building and serving jekyll with bundle
 # dev env
 function bsdev(){
-    bundle exec jekyll b --config _config_dev.yml
-    bundle exec jekyll s --config _config_dev.yml
+    bundle exec jekyll b --config _dev_config.yml
+    bundle exec jekyll s --config _dev_config.yml
 }
 
 #prod env
