@@ -181,14 +181,12 @@ eval $(thefuck --alias FUCK)
 # for building and serving jekyll with bundle
 # dev env
 function bsdev(){
-    bundle exec jekyll b --config _dev_config.yml
-    bundle exec jekyll s --config _dev_config.yml
+    docker-compose run --service-ports site jekyll s --config _dev_config.yml
 }
 
 #prod env
 function bsprod(){
-    bundle exec jekyll b --config _config.yml
-    bundle exec jekyll s --config _config.yml
+    docker-compose run site jekyll s
 }
 
 function ddocs(){
