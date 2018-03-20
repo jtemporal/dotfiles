@@ -1,0 +1,6 @@
+[core]
+	excludesfile = /home/temporal/dotfiles/.gitignore_global
+[push]
+	default = simple
+[url "git@github.com:"]
+	insteadOf = https://github.com/

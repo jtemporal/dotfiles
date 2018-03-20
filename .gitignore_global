@@ -4,6 +4,9 @@
 *.pyc
 .DS_Store
 
+# pyenv
+.python-version
+
 # VIM
 *.swp
 
