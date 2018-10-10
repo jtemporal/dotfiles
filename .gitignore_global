@@ -32,6 +32,8 @@ Gemfile.lock
 
 # envs
 .env/
+.myenv/
+venv/
 
 # spark
 *metastore_db/
