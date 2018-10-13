@@ -202,3 +202,7 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 
 # ruby
 eval "$(rbenv init -)"
+
+function asciicast2gif () {
+    docker run --rm -v $(echo $PWD):/data asciinema/asciicast2gif https://asciinema.org/a/${1}.json ${2}
+}
