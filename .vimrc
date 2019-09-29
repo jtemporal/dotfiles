@@ -25,6 +25,14 @@ set listchars+=precedes:<
 set autoindent
 syntax on
 
+
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'NLKNguyen/papercolor-theme'
+call vundle#end()
+
 set background=dark
 colorscheme PaperColor
 
