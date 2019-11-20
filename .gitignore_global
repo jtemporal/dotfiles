@@ -18,6 +18,7 @@ geckodriver.log
 
 # Ruby
 Gemfile.lock
+.jekyl-cache/
 
 # R
 .RData

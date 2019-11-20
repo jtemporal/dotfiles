@@ -206,3 +206,12 @@ eval "$(rbenv init -)"
 function asciicast2gif () {
     docker run --rm -v $(echo $PWD):/data asciinema/asciicast2gif https://asciinema.org/a/${1}.json ${2}
 }
+
+function run() {
+    if [ "$1" = jekyll ]; then
+        docker run --rm   --volume="$PWD:/srv/jekyll"  -p 4000:4000 -it jekyll/jekyll:3.8 jekyll serve --drafts
+    fi
+    if [ "$1" = nodemation ]; then
+        docker run -it --rm   --name n8n   -p 5678:5678   -v ~/.n8n:/root/.n8n   n8nio/n8n
+    fi
+}
