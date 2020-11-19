@@ -36,6 +36,11 @@ Gemfile.lock
 .env/
 .myenv/
 venv/
+.upload/
 
 # spark
 *metastore_db/
+
+# modeling
+**/model/
+**/input/
