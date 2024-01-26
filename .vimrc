@@ -5,7 +5,7 @@ set sts=4
 set scrolloff=8
 set sidescrolloff=15
 set expandtab
-set relativenumber
+set number
 
 " activate visual feedback for the following cases
 set list
@@ -25,6 +25,9 @@ set listchars+=precedes:<
 set autoindent
 syntax on
 
+" install vundle: copy and paste the lines below in the terminal
+"   git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"   vim +PluginInstall +qall
 
 set nocompatible
 filetype off
@@ -33,8 +36,13 @@ call vundle#begin()
 Plugin 'NLKNguyen/papercolor-theme'
 call vundle#end()
 
-set background=dark
+set background=light
 colorscheme PaperColor
+
+" install pathogen: copy and paste the lines below in the terminal
+"   mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+"   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+"
 
 execute pathogen#infect()
 filetype plugin indent on
