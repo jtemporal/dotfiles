@@ -16,6 +16,7 @@ fi
 
 if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  vim +PluginInstall +qall
 fi
 
 if [ ! -f ~/.oh-my-zsh/themes/jesstemporal.zsh-theme ]; then
