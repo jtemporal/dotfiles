@@ -1,23 +1,27 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export CODESPACES_ZSH=true
-
-if [ "$CODESPACES_ZSH" = "true" ]
-then
-  # Path to your oh-my-zsh installation.
-  export ZSH="/home/vscode/.oh-my-zsh"
-  # Set name of the theme to load --- if set to "random", it will
-  # load a random theme each time oh-my-zsh is loaded, in which case,
-  # to know which specific one was loaded, run: echo $RANDOM_THEME
-  # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-  ZSH_THEME="robbyrussell"
-else
-  # Path to your oh-my-zsh installation.
-  export ZSH="/Users/jessicatemporal/.oh-my-zsh"
-  
-  # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-  ZSH_THEME="agnoster"
+if [ ! -f ~/.oh-my-zsh/themes/jesstemporal.zsh-theme ]; then
+  curl -o ~/.oh-my-zsh/themes/jesstemporal.zsh-theme https://gist.githubusercontent.com/jtemporal/f0e3e183e0e5b0f1a5473d2448ef4735/raw/jesstemporal.zsh-theme
 fi
+
+# if [ "$CODESPACES_ZSH" = "true" ]
+# then
+#   # Path to your oh-my-zsh installation.
+#   export ZSH="~/.oh-my-zsh"
+#   # Set name of the theme to load --- if set to "random", it will
+#   # load a random theme each time oh-my-zsh is loaded, in which case,
+#   # to know which specific one was loaded, run: echo $RANDOM_THEME
+#   # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+#   ZSH_THEME="robbyrussell"
+# else
+#   # Path to your oh-my-zsh installation.
+#   export ZSH="/Users/jessicatemporal/.oh-my-zsh"
+  
+#   # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+#   ZSH_THEME="agnoster"
+# fi
+export ZSH="~/.oh-my-zsh"
+ZSH_THEME="jesstemporal"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
