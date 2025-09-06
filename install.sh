@@ -29,14 +29,6 @@ link_file() {
     ln -sf "$src" "$dest"
 }
 
-# Create symlinks for all dotfiles (except shell configs first)
-echo "📁 Creating symlinks for dotfiles..."
-link_file "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-link_file "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
-link_file "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
-link_file "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
-
 # Handle .tmuxp directory
 if [ -d "$DOTFILES_DIR/.tmuxp" ]; then
     link_file "$DOTFILES_DIR/.tmuxp" "$HOME/.tmuxp"
@@ -83,10 +75,15 @@ fi
 echo "💡 Note: Vim plugins are installed. You can run ':PluginInstall' in vim later if needed."
 
 # Now handle shell configuration files (these might trigger shell reloads)
-echo "🐚 Setting up shell configurations..."
+echo "📁 Creating symlinks for dotfiles..."
 link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
 link_file "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
 link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
+link_file "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
+# link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+link_file "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+link_file "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
+link_file "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 
 # Do zsh config last to minimize reloads
 echo "� Setting up zsh configuration..."
