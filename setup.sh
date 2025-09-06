@@ -16,3 +16,7 @@ if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   vim +PluginInstall +qall
 fi
+
+if [ ! -f ~/.oh-my-zsh/themes/jesstemporal.zsh-theme ]; then
+  curl -sS -o ~/.oh-my-zsh/themes/jesstemporal.zsh-theme https://gist.githubusercontent.com/jtemporal/f0e3e183e0e5b0f1a5473d2448ef4735/raw/jesstemporal.zsh-theme
+fi
