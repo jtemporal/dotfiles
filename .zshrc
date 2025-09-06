@@ -79,6 +79,8 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# Force Git to use vim instead of VS Code
+export GIT_EDITOR=vim
 export EDITOR=vim
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
