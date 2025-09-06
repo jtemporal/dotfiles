@@ -80,23 +80,14 @@ link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
 link_file "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
 link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
 link_file "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+# link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 link_file "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
 link_file "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
 link_file "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 
 # Do zsh config last to minimize reloads
-echo "🔧 Setting up zsh configuration..."
-
-# Special handling for .zshrc to prevent auto-reload during setup
-if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
-    echo "📦 Backing up existing $HOME/.zshrc"
-    mv "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
-fi
-
-# Create the symlink without triggering reload
-echo "🔗 Linking $HOME/.zshrc -> $DOTFILES_DIR/.zshrc"
-ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+echo "� Setting up zsh configuration..."
+link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
 echo "✅ Dotfiles setup complete!"
-echo "💡 Configuration applied. Please restart your terminal or run 'exec zsh' to apply zsh changes."
+echo "💡 Configuration applied. Shell may reload automatically or restart your terminal."
