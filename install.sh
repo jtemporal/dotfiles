@@ -29,13 +29,9 @@ link_file() {
     ln -sf "$src" "$dest"
 }
 
-# Create symlinks for all dotfiles
+# Create symlinks for all dotfiles (except shell configs first)
 echo "📁 Creating symlinks for dotfiles..."
-link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 link_file "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
-link_file "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
-link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
 link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 link_file "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
 link_file "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
@@ -86,5 +82,15 @@ fi
 
 echo "💡 Note: Vim plugins are installed. You can run ':PluginInstall' in vim later if needed."
 
+# Now handle shell configuration files (these might trigger shell reloads)
+echo "🐚 Setting up shell configurations..."
+link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+link_file "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
+link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
+
+# Do zsh config last to minimize reloads
+echo "� Setting up zsh configuration..."
+link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+
 echo "✅ Dotfiles setup complete!"
-echo "💡 Restart your terminal or run 'exec zsh' to apply changes."
+echo "💡 Configuration applied. Shell may reload automatically or restart your terminal."
