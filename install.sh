@@ -1,91 +1,90 @@
 #!/bin/bash
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+set -e  # Exit on any error
 
-echo -e "${GREEN}🚀 Setting up dotfiles...${NC}"
+echo "🚀 Setting up dotfiles..."
 
 # Get the directory where this script is located
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Function to create symlink
-create_symlink() {
-    local source="$1"
-    local target="$2"
+# Function to create symlink safely
+link_file() {
+    local src="$1"
+    local dest="$2"
     
-    if [ -L "$target" ]; then
-        echo -e "${YELLOW}⚠️  Removing existing symlink: $target${NC}"
-        rm "$target"
-    elif [ -f "$target" ]; then
-        echo -e "${YELLOW}⚠️  Backing up existing file: $target to $target.backup${NC}"
-        mv "$target" "$target.backup"
+    # Skip if source doesn't exist
+    if [ ! -e "$src" ]; then
+        echo "⚠️  Skipping $src (doesn't exist)"
+        return
     fi
     
-    echo -e "${GREEN}✅ Creating symlink: $target -> $source${NC}"
-    ln -s "$source" "$target"
+    # Backup existing file/symlink
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+        echo "📦 Backing up existing $dest"
+        mv "$dest" "$dest.backup.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
+    fi
+    
+    # Create symlink
+    echo "🔗 Linking $dest -> $src"
+    ln -sf "$src" "$dest"
 }
 
-# Create symlinks for dotfiles
-echo -e "${GREEN}📁 Creating symlinks for dotfiles...${NC}"
-create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-create_symlink "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-create_symlink "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
-create_symlink "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
-create_symlink "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
-create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-create_symlink "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
-create_symlink "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
-create_symlink "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
+# Create symlinks for all dotfiles
+echo "📁 Creating symlinks for dotfiles..."
+link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+link_file "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
+link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+link_file "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
+link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
+link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+link_file "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+link_file "$DOTFILES_DIR/.screenrc" "$HOME/.screenrc"
+link_file "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 
-# Create .tmuxp directory and symlink
+# Handle .tmuxp directory
 if [ -d "$DOTFILES_DIR/.tmuxp" ]; then
-    if [ -L "$HOME/.tmuxp" ]; then
-        rm "$HOME/.tmuxp"
-    elif [ -d "$HOME/.tmuxp" ]; then
-        mv "$HOME/.tmuxp" "$HOME/.tmuxp.backup"
-    fi
-    echo -e "${GREEN}✅ Creating symlink: $HOME/.tmuxp -> $DOTFILES_DIR/.tmuxp${NC}"
-    ln -s "$DOTFILES_DIR/.tmuxp" "$HOME/.tmuxp"
+    link_file "$DOTFILES_DIR/.tmuxp" "$HOME/.tmuxp"
 fi
 
-# Create vim directories
-echo -e "${GREEN}📦 Setting up Vim...${NC}"
-if [ ! -d ~/.vim ]; then
-  mkdir -p ~/.vim
+# Download custom zsh theme (simple, non-blocking)
+if [ -d ~/.oh-my-zsh/themes ]; then
+    echo "🎨 Installing custom zsh theme..."
+    curl -fsSL -o ~/.oh-my-zsh/themes/jesstemporal.zsh-theme \
+        https://gist.githubusercontent.com/jtemporal/f0e3e183e0e5b0f1a5473d2448ef4735/raw/jesstemporal.zsh-theme \
+        2>/dev/null || echo "⚠️  Failed to download custom theme (continuing anyway)"
 fi
 
-if [ ! -d ~/.vim/autoload ]; then
-  mkdir -p ~/.vim/autoload
-fi                                                                              
+# Set up Vim plugins (non-interactive)
+echo "📦 Setting up Vim..."
+mkdir -p ~/.vim/{autoload,bundle}
 
-if [ ! -d ~/.vim/bundle ]; then
-  mkdir -p ~/.vim/bundle
-fi                                                                              
+# Install Vundle if not present
+if [ ! -d ~/.vim/bundle/Vundle.vim ]; then
+    echo "📥 Installing Vundle..."
+    git clone --quiet https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim 2>/dev/null || {
+        echo "⚠️  Failed to install Vundle (continuing anyway)"
+    }
+fi
 
-# Install Vundle
-if [ ! -d ~/.vim/bundle/Vundle.vim ]; then                                      
-  echo -e "${GREEN}📥 Installing Vundle...${NC}"
-  git clone --quiet https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  if [ $? -eq 0 ]; then
-    echo -e "${GREEN}🔌 Installing Vim plugins...${NC}"
-    vim +PluginInstall +qall 2>/dev/null
-  fi
-fi                                                                              
-
-# Install pathogen
+# Install Pathogen if not present
 if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
-  echo -e "${GREEN}📥 Installing Pathogen...${NC}"
-  curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+    echo "📥 Installing Pathogen..."
+    curl -fsSL -o ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim 2>/dev/null || {
+        echo "⚠️  Failed to install Pathogen (continuing anyway)"
+    }
 fi
 
-# Install custom zsh theme (only if oh-my-zsh exists)
-if [ -d ~/.oh-my-zsh ] && [ ! -f ~/.oh-my-zsh/themes/jesstemporal.zsh-theme ]; then
-  echo -e "${GREEN}🎨 Installing custom zsh theme...${NC}"
-  curl -sS -o ~/.oh-my-zsh/themes/jesstemporal.zsh-theme https://gist.githubusercontent.com/jtemporal/f0e3e183e0e5b0f1a5473d2448ef4735/raw/jesstemporal.zsh-theme
+# Install PaperColor theme directly (avoiding interactive vim)
+if [ ! -d ~/.vim/bundle/papercolor-theme ]; then
+    echo "🎨 Installing PaperColor theme..."
+    git clone --quiet https://github.com/NLKNguyen/papercolor-theme.git ~/.vim/bundle/papercolor-theme 2>/dev/null && {
+        echo "✅ PaperColor theme installed"
+    } || {
+        echo "⚠️  Could not install PaperColor theme"
+    }
 fi
 
-echo -e "${GREEN}🎉 Dotfiles setup complete!${NC}"
-echo -e "${YELLOW}💡 You may need to restart your shell or run 'source ~/.zshrc' to see changes.${NC}"
+echo "💡 Note: Vim plugins are installed. You can run ':PluginInstall' in vim later if needed."
+
+echo "✅ Dotfiles setup complete!"
+echo "💡 Restart your terminal or run 'exec zsh' to apply changes."
