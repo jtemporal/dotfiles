@@ -1,4 +1,5 @@
 [core]
-	excludesfile = /home/temporal/dotfiles/.gitignore_global
+	excludesfile = ~/.gitignore_global
+	editor = vim
 [push]
 	default = simple
